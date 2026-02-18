@@ -1,0 +1,50 @@
+# Income Bot Configuration
+# Copy this file to config.yaml and fill in your values.
+# Keep config.yaml secure — add to .gitignore!
+
+# Gemini API key (get from https://makersuite.google.com/app/apikey)
+# Optionally set via environment variable GEMINI_API_KEY instead.
+gemini_api_key: "YOUR_GEMINI_API_KEY_HERE"
+
+# Local path to your GitHub Pages repository clone
+# Example: "C:/Users/spenc/.openclaw/workspace/live_site"
+repo_path: "C:/path/to/your/website"
+
+# Niche configuration
+niche:
+  name: "Specialty Dog Supplements"  # Used as category slug (lowercase, hyphens)
+  seed_keywords:
+    - "hip_supplements_for_german_shepherds"
+    - "anxiety_relief_for_rescue_dogs"
+    - "joint_health_for_large_breeds"
+    - "allergy_support_for_pitbulls"
+    - "weight_management_for_senior_dogs"
+
+# Affiliate tracking IDs
+amazon_tracking_id: "yourtag-20"  # e.g., "mytag-20" from Amazon Associates
+# chewy_id: "your-chewy-id"  # optional, if you get Chewy affiliate
+
+# Optional integrations
+discord_webhook_url: "https://discord.com/api/webhooks/..."  # for alerts (optional)
+
+# Obsidian vault path (for logging)
+obsidian_vault_path: "C:/Users/spenc/Documents/Obsidian/Vaults/Atlas"
+
+# Free tier usage limits (self-throttling)
+free_tier_limits:
+  gemini_daily_tokens: 2000000  # Gemini 2.0 Flash provides ~2M tokens/day free
+  github_pushes_per_month: 2000  # GitHub Actions free minutes limit
+
+# Advanced: Optional backup Gemini API key for failover
+# gemini_backup_api_key: "AIza..."
+
+# Security: Set to true to encrypt sensitive fields in this file using Fernet
+# Requires you to set FERNET_KEY environment variable or key below
+# encrypt_config: false
+# fernet_key: "YOUR_FERNET_KEY_HERE"  # generate with: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+
+# ---
+# Notes:
+# - Use forward slashes or double backslashes in paths on Windows
+# - Do not commit real API keys; use environment variables or encrypted config
+# - After filling this out, run: python run.py --setup

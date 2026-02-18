@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Income Bot Health Dashboard</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; background: #0f172a; color: #e2e8f0; }
+        h1 { color: #38bdf8; }
+        .status { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.875rem; margin-left: 0.5rem; }
+        .HEALTHY { background: #16a34a; color: white; }
+        .DEGRADED { background: #d97706; color: white; }
+        .DOWN { background: #dc2626; color: white; }
+        .metric { background: #1e293b; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0; }
+        .metric h3 { margin-top: 0; color: #94a3b8; font-size: 0.875rem; text-transform: uppercase; }
+        .metric .value { font-size: 2rem; font-weight: bold; color: #38bdf8; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #334155; }
+        th { color: #94a3b8; font-weight: 600; }
+        .log-entry { font-family: monospace; font-size: 0.8rem; color: #64748b; margin: 0.25rem 0; }
+        .refresh { color: #38bdf8; text-decoration: none; }
+        footer { margin-top: 2rem; color: #64748b; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+    <h1>Income Bot Health Dashboard <span id="status-badge" class="status">LOADING</span></h1>
+    <p><a href="#" class="refresh" onclick="location.reload()">Refresh now</a></p>
+
+    <div class="metric">
+        <h3>Articles Published (Last 7 Days)</h3>
+        <div class="value" id="articles">-</div>
+    </div>
+
+    <div class="metric">
+        <h3>API Calls</h3>
+        <div class="value" id="api-calls">-</div>
+    </div>
+
+    <div class="metric">
+        <h3>Total Tokens Used</h3>
+        <div class="value" id="tokens">-</div>
+    </div>
+
+    <div class="metric">
+        <h3>Errors</h3>
+        <div class="value" id="errors">-</div>
+    </div>
+
+    <h2>Daily Breakdown</h2>
+    <table id="daily-table">
+        <thead>
+            <tr><th>Date</th><th>Articles</th><th>API Calls</th><th>Tokens</th><th>Errors</th></tr>
+        </thead>
+        <tbody id="daily-body"></tbody>
+    </table>
+
+    <h2>Recent Logs</h2>
+    <div id="logs"></div>
+
+    <footer>
+        Generated: <span id="generated"></span><br>
+        Health data source: <code>health_status.json</code>
+    </footer>
+
+    <script>
+        async function loadData() {
+            try {
+                const resp = await fetch('health_status.json?' + Date.now());
+                const data = await resp.json();
+                document.getElementById('generated').textContent = new Date(data.generated_at).toLocaleString();
+                document.getElementById('status-badge').textContent = data.status;
+                document.getElementById('status-badge').className = 'status ' + data.status;
+
+                const totals = data.metrics.totals;
+                document.getElementById('articles').textContent = totals.articles_published;
+                document.getElementById('api-calls').textContent = totals.api_calls;
+                document.getElementById('tokens').textContent = totals.tokens_used.toLocaleString();
+                document.getElementById('errors').textContent = totals.errors;
+
+                const tbody = document.getElementById('daily-body');
+                tbody.innerHTML = '';
+                data.metrics.daily.forEach(day => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${day.date}</td><td>${day.articles_published}</td><td>${day.api_calls}</td><td>${day.tokens_used.toLocaleString()}</td><td>${day.errors}</td>`;
+                    tbody.appendChild(tr);
+                });
+
+                // Load recent logs
+                try {
+                    const logResp = await fetch('logs/health_aggregate.json?' + Date.now());
+                    const logs = await logResp.json();
+                    const logsDiv = document.getElementById('logs');
+                    logs.slice(-10).reverse().forEach(entry => {
+                        const div = document.createElement('div');
+                        div.className = 'log-entry';
+                        div.textContent = `[${entry.timestamp}] ${entry.level} ${entry.module}: ${entry.message}`;
+                        logsDiv.appendChild(div);
+                    });
+                } catch (e) {}
+            } catch (err) {
+                document.getElementById('articles').textContent = 'Error loading';
+                console.error(err);
+            }
+        }
+        loadData();
+        setInterval(loadData, 30000); // auto-refresh every 30s
+    </script>
+</body>
+</html>
