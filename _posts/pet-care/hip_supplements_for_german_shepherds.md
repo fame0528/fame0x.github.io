@@ -7,7 +7,7 @@ tags: ['hip', 'supplements', 'for', 'german', 'shepherds']
 ---
 # Hip Supplements For German Shepherds
 
-*Note: This is a placeholder article generated due to API error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}*
+*Note: This is a placeholder article generated due to API error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}*
 
 ## Introduction
 We understand you're looking for the best hip supplements for german shepherds. This page is under construction.
