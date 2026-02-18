@@ -7,7 +7,7 @@ tags: ['joint', 'health', 'for', 'large', 'breeds']
 ---
 # Joint Health For Large Breeds
 
-*Note: This is a placeholder article generated due to API error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-2.0-flash-exp is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}*
+*Note: This is a placeholder article generated due to API error: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}*
 
 ## Introduction
 We understand you're looking for the best joint health for large breeds. This page is under construction.
